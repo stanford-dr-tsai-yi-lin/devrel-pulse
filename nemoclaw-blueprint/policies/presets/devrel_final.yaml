@@ -1,0 +1,27 @@
+preset:
+  name: devrel-final
+  description: "Explicit binary lineage permission for python3.13 runtime"
+network_policies:
+  devrel-final:
+    name: devrel-final
+    endpoints:
+      - host: discord.com
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: POST, path: "/api/webhooks/**" }
+      - host: api.github.com
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET, path: "/**" }
+      - host: api.tavily.com
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: POST, path: "/**" }
+    binaries:
+      - { path: /usr/bin/python3.13 }
