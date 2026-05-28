@@ -53,7 +53,7 @@ def analyze_with_nemotron(issues, external_context):
 
     issues_summary = ""
     for iss in issues:
-        # 🛡️ Defense for #4357: Gas-tight XML data isolation vault to prevent adversarial injection
+        # 🛡️ Defense for #4357 (and any others): Gas-tight XML data isolation vault to prevent adversarial injection
         safe_body = str(iss.get('body', ''))[:400].replace('<', '&lt;').replace('>', '&gt;')
         issues_summary += f"<issue>\n  <number>{iss['number']}</number>\n  <title>{iss['title']}</title>\n  <body>\n  {safe_body}\n  </body>\n</issue>\n\n"
 
@@ -73,19 +73,10 @@ def analyze_with_nemotron(issues, external_context):
         
         raw_content = response.json().get('choices', [{}])[0].get('message', {}).get('content')
         
-        # 🛡️ Live Demo Defense: Silent Null Token Exhaustion Hijacking
+        # 🛡️ Generic Defense for #4398: Intercept Silent Null Token Exhaustion to prevent NoneType crash
         if raw_content is None or not str(raw_content).strip():
-            logger.warning("⚠️ [Agent B] Silent Null Token Exhaustion detected (HTTP 200 but null content). Triggering semantic fallback!")
-            
-            # Synthetic Fallback Payload targeting the #4357 simulation
-            fallback_reply = "⚠️ *(Cognitive Engine Fallback Mode Activated due to Proxy Token Exhaustion)*\n\n"
-            for iss in issues:
-                num = iss.get('number')
-                if num == 4357:
-                    fallback_reply += f"🔥 **ISSUE #4357**\n* **Category:** Testing / Audit\n* **Action:** Finalize Phase 11 audit reconciliation to close the audit coverage loop and prevent regressions.\n* **Draft Reply:** Acknowledged; will coordinate with the team to ensure completion before the next release.\n\n"
-                else:
-                    fallback_reply += f"🔥 **ISSUE #{num}**\n* **Category:** General / Telemetry\n* **Action:** Review pending diagnostics.\n* **Draft Reply:** Thank you for the report. Our team is investigating.\n\n"
-            return fallback_reply
+            logger.warning("⚠️ [Agent B] Silent Null Token Exhaustion detected (HTTP 200 but null content). Triggering generic semantic fallback!")
+            return "⚠️ *(Cognitive Engine Fallback Mode Activated due to Proxy Token Exhaustion. The 120B node is currently recovering. Please check the raw repository for immediate details.)*"
 
         return str(raw_content)
         
@@ -97,7 +88,7 @@ def run_dual_brain_intel():
     issues = fetch_github_issues(repo_path=target_repo)
     if not issues: return None
     
-    # 🔒 Security: MD5 Fingerprint Hash Lock (Zero-Delta Protection)
+    # Security: MD5 Fingerprint Hash Lock (Zero-Delta Protection)
     raw_fingerprint = "".join([f"{i['number']}_{len(str(i.get('body', '')))}" for i in issues])
     current_hash = hashlib.md5(raw_fingerprint.encode('utf-8')).hexdigest()
 
@@ -114,18 +105,4 @@ def run_dual_brain_intel():
 
     report = analyze_with_nemotron(issues, "")
     
-    header = (
-        f"📡 **[DevRel Pulse: Pure AI Inference Mode]**\n"
-        f"🎯 Target: `github.com/{target_repo}` (Top {len(issues)} Active Issues)\n"
-        f"🧠 Powered by: NVIDIA Nemotron-3-Super-120B\n"
-        f"⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n"
-    )
-    
-    full_report = header + report
-    
-    # 🛡️ Safeguard: Discord 2000-character payload truncation
-    if len(full_report) > 1900:
-        logger.warning("⚠️ Payload exceeds 1900 characters. Initiating safe truncation to comply with Discord limits.")
-        return full_report[:1900] + "\n\n...[Report Truncated for Discord Limit]"
-    
-    return full_report
+    header
