@@ -88,7 +88,7 @@ def run_dual_brain_intel():
     issues = fetch_github_issues(repo_path=target_repo)
     if not issues: return None
     
-    # 🔒 Security: MD5 Fingerprint Hash Lock (Zero-Delta Protection)
+    # Security: MD5 Fingerprint Hash Lock (Zero-Delta Protection)
     raw_fingerprint = "".join([f"{i['number']}_{len(str(i.get('body', '')))}" for i in issues])
     current_hash = hashlib.md5(raw_fingerprint.encode('utf-8')).hexdigest()
 
@@ -114,7 +114,7 @@ def run_dual_brain_intel():
     
     full_report = header + report
     
-    # 🛡️ Safeguard: Discord 2000-character payload truncation
+    # Safeguard: Discord 2000-character payload truncation
     if len(full_report) > 1900:
         logger.warning("⚠️ Payload exceeds 1900 characters. Initiating safe truncation to comply with Discord limits.")
         return full_report[:1900] + "\n\n...[Report Truncated for Discord Limit]"
