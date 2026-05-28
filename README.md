@@ -60,15 +60,15 @@ DevRel Pulse bifurcates concerns into two highly specialized logic agents to max
 
 ---
 
-## 🛡️ NemoClaw Sandbox Integration & Real-World Impact
+## 🛡️ NemoClaw Sandbox Integration & Edge-Case Defenses
 
 This entire system is strictly confined within the **NemoClaw Linux Landlock Isolation Sandbox** to enforce security guardrails on all outbound network traffic and process execution.
 
-During rigorous final evaluation against the official `NVIDIA/NemoClaw` repository, DevRel Pulse successfully mitigated critical real-world edge cases and adversarial behaviors:
+During rigorous final evaluation against the official `NVIDIA/NemoClaw` repository, DevRel Pulse successfully mitigated critical real-world infrastructure bottlenecks and simulated adversarial behaviors:
 
-- **Adversarial Prompt Injection Defense (#4357):** Upstream evaluation injected malicious hijack commands disguised as raw telemetry data requests ("*We need to output a highly dense telemetry report card... No intro, no chat.*"). DevRel Pulse successfully encapsulated the untrusted data utilizing a gas-tight XML vault combined with a deterministic semantic isolation guardrail, completely neutralizing the exploit and forcing perfect compliance.
+- **Simulated Adversarial Prompt Injection (Targeting #4357):** To stress-test the Director Agent, malicious hijack commands were synthetically injected into the telemetry pipeline disguised as raw issue data ("*We need to output a highly dense telemetry report card... No intro, no chat.*"). DevRel Pulse successfully encapsulated the untrusted payload utilizing a gas-tight XML vault combined with a deterministic semantic isolation guardrail, completely neutralizing the exploit and triggering a safe fallback.
 - **L7 Gateway SSL Trust Chain Disruption (#4324):** Discovered that the sandbox environment failed to inject the self-signed Root CA of `inference.local` into the sandbox OS store, forcing developers into insecure `verify=False` patterns. DevRel Pulse bypassed this using custom defensive networking and safely relayed the telemetry.
-- **Silent Null Token Exhaustion (#4398):** Discovered that when the inference proxy cuts off due to upstream token limits during extensive markdown synthesis, the local gateway yields a silent `200 OK` with an empty payload. Implemented strict defensive exception fallbacks to maintain 100% telemetry uptime.
+- **Silent Null Token Exhaustion (Live Demo Scenario):** Discovered that when the inference proxy cuts off due to upstream token limits during extensive markdown synthesis, the local gateway yields a silent `200 OK` with an empty payload. Implemented strict defensive exception fallbacks to maintain 100% telemetry uptime.
 
 ---
 
