@@ -5,7 +5,7 @@ import requests
 import hashlib
 import urllib3
 
-# Guardrail for #4324: Suppress InsecureRequestWarning for missing inference.local Root CA
+# 🛡️ Guardrail for #4324: Suppress InsecureRequestWarning for missing inference.local Root CA
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s]: %(message)s')
@@ -88,7 +88,7 @@ def run_dual_brain_intel():
     issues = fetch_github_issues(repo_path=target_repo)
     if not issues: return None
     
-    # Security: MD5 Fingerprint Hash Lock (Zero-Delta Protection)
+    # 🔒 Security: MD5 Fingerprint Hash Lock (Zero-Delta Protection)
     raw_fingerprint = "".join([f"{i['number']}_{len(str(i.get('body', '')))}" for i in issues])
     current_hash = hashlib.md5(raw_fingerprint.encode('utf-8')).hexdigest()
 
@@ -105,4 +105,18 @@ def run_dual_brain_intel():
 
     report = analyze_with_nemotron(issues, "")
     
-    header
+    header = (
+        f"📡 **[DevRel Pulse: Pure AI Inference Mode]**\n"
+        f"🎯 Target: `github.com/{target_repo}` (Top {len(issues)} Active Issues)\n"
+        f"🧠 Powered by: NVIDIA Nemotron-3-Super-120B\n"
+        f"⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n"
+    )
+    
+    full_report = header + report
+    
+    # 🛡️ Safeguard: Discord 2000-character payload truncation
+    if len(full_report) > 1900:
+        logger.warning("⚠️ Payload exceeds 1900 characters. Initiating safe truncation to comply with Discord limits.")
+        return full_report[:1900] + "\n\n...[Report Truncated for Discord Limit]"
+    
+    return full_report
