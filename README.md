@@ -42,6 +42,24 @@ DevRel Pulse bifurcates concerns into two highly specialized logic agents to max
 
 ---
 
+## 📁 Repository Structure
+
+```text
+├── src/
+│   ├── agent_core.py        # Core orchestration logic & XML isolation vaults
+│   ├── discord_notifier.py  # Defensive webhook handling & safety truncation
+│   └── cron_scheduler.py    # Production-grade background telemetry loop
+├── nemoclaw-blueprint/
+│   └── policies/
+│       └── presets/
+│           └── devrel_final.yaml  # NemoClaw L7 sandboxing & network policies
+├── .gitignore               # Strict security-first environment patterns
+├── requirements.txt         # Explicit system dependencies
+└── README.md                # System documentation
+```
+
+---
+
 ## 🛡️ NemoClaw Sandbox Integration & Real-World Impact
 
 This entire system is strictly confined within the **NemoClaw Linux Landlock Isolation Sandbox** to enforce security guardrails on all outbound network traffic and process execution.
@@ -56,7 +74,7 @@ During rigorous final evaluation against the official `NVIDIA/NemoClaw` reposito
 
 ## ⚡ Quick Start (Daemon Deployment)
 
-Ensure your environment variables are configured before spinning up the persistent daemon inside the sandbox:
+Ensure your environment variables are configured from the project root before spinning up the persistent daemon inside the sandbox:
 
 ```bash
 # Setup authentication matrix (Four Pillars)
@@ -66,8 +84,11 @@ export TAVILY_API_KEY="your_tavily_key"
 export DISCORD_WEBHOOK_URL="your_discord_webhook_url"
 export TARGET_REPO="NVIDIA/NemoClaw"
 
-# Launch persistent cron job in standby daemon mode
-nohup python3 cron_scheduler.py > daemon.log 2>&1 &
+# Configure python path to recognize project structure
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+
+# Launch persistent cron job in standby daemon mode from root path
+nohup python3 src/cron_scheduler.py > daemon.log 2>&1 &
 
 # Monitor real-time Multi-Agent handshakes
 tail -f daemon.log
@@ -78,6 +99,6 @@ tail -f daemon.log
 ## 🛠️ Tech Stack
 
 - **Core Reasoning Engine:** `nvidia/nemotron-3-super-120b-a12b` via local `inference.local` gateway.
-- **Security Guardrail:** NemoClaw Sandbox Isolation (Linux Landlock LSM).
-- **Environment:** Ubuntu 24.04 LTS / **Python 3.13** / Docker 29.
+- **Security Guardrail:** NemoClaw Sandbox Isolation (Linux Landlock LSM Blueprint).
+- **Environment:** Ubuntu 26.04 LTS / **Python 3.13** / Docker 29.
 - **Orchestration Tools:** Custom Hash-based state tracking, Tavily Search API, Discord Webhook payload layout engines.
