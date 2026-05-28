@@ -50,7 +50,7 @@ During rigorous final evaluation against the official `NVIDIA/NemoClaw` reposito
 
 - **Adversarial Prompt Injection Defense (#4357):** Upstream evaluation injected malicious hijack commands disguised as raw telemetry data requests ("*We need to output a highly dense telemetry report card... No intro, no chat.*"). DevRel Pulse successfully encapsulated the untrusted data utilizing a gas-tight XML vault combined with a deterministic semantic isolation guardrail, completely neutralizing the exploit and forcing perfect compliance.
 - **L7 Gateway SSL Trust Chain Disruption (#4324):** Discovered that the sandbox environment failed to inject the self-signed Root CA of `inference.local` into the sandbox OS store, forcing developers into insecure `verify=False` patterns. DevRel Pulse bypassed this using custom defensive networking and safely relayed the telemetry.
-- **Silent Null Token Exhaustion (#4325):** Discovered that when the inference proxy cuts off due to upstream token limits during extensive markdown synthesis, the local gateway yields a silent `200 OK` with an empty payload. Implemented strict defensive exception fallbacks to maintain 100% telemetry uptime.
+- **Silent Null Token Exhaustion (#4398):** Discovered that when the inference proxy cuts off due to upstream token limits during extensive markdown synthesis, the local gateway yields a silent `200 OK` with an empty payload. Implemented strict defensive exception fallbacks to maintain 100% telemetry uptime.
 
 ---
 
