@@ -1,18 +1,24 @@
+import os
 import json
 import logging
 import requests
 
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1508740002996162723/COExBbC_blfUauuXeE6y6_M7RouTW_niT5pgViyReYIUIUuT-dHRRZ6xVnmK-8yhc1I2"
+# SECURITY GUARDRAIL: Fetch from environment matrix to prevent credential leakage
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 
 def send_to_discord(content):
+    if not DISCORD_WEBHOOK_URL:
+        logging.error("❌ Discord Engine: DISCORD_WEBHOOK_URL environment variable is missing!")
+        return False
+
     if not content.strip():
         logging.error("❌ Discord Engine: Content is empty!")
         return False
 
-    # 阻斷 400 錯誤：實施 2000 字元鋼鐵律法安全截斷
+    # Prevent HTTP 400 Bad Request: Enforce Discord's 2000 character strict limit
     if len(content) > 1900:
-        logging.warning(f"⚠️ 報告長度 ({len(content)}) 超過 Discord 上限。正在實施安全防護截斷...")
-        content = content[:1900] + "\n\n⚠️ *(由於 Discord 訊息長度限制，其餘深度資安情資已由 NemoClaw 安全加密封存)*"
+        logging.warning(f"⚠️ Payload length ({len(content)}) exceeds Discord limits. Enforcing safety truncation...")
+        content = content[:1900] + "\n\n⚠️ *(Due to Discord's payload limits, further telemetry data has been securely vaulted by NemoClaw)*"
 
     payload = {"content": content}
     headers = {"Content-Type": "application/json"}
