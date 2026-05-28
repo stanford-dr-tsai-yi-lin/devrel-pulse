@@ -1,1 +1,5 @@
+# Core HTTP orchestrator for GitHub API, Tavily Radar, and Nemotron Gateway
 requests>=2.31.0
+
+# Explicitly declared for dynamic L7 transport warning suppression
+urllib3>=2.0.0
