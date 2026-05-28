@@ -5,7 +5,7 @@ import requests
 import hashlib
 import urllib3
 
-# 🛡️ Guardrail for #4324: Suppress InsecureRequestWarning for missing inference.local Root CA
+# Guardrail for #4324: Suppress InsecureRequestWarning for missing inference.local Root CA
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s]: %(message)s')
