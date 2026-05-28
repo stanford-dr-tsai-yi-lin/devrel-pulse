@@ -1,5 +1,16 @@
+# Byte-compiled / optimized / DLLs
 __pycache__/
 *.pyc
+
+# Databases and environment secrets
 *.db
-*.log
 .env
+
+# Application logs and runtime states
+*.log
+.pulse_state.hash
+
+# IDEs and OS metadata
+.DS_Store
+.vscode/
+.idea/
