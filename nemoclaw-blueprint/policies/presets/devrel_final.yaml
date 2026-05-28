@@ -1,6 +1,6 @@
 preset:
   name: devrel-final
-  description: "Explicit binary lineage permission for python3.13 runtime"
+  description: "Explicit binary lineage and L7 sandbox containment policy for DevRel Pulse"
 network_policies:
   devrel-final:
     name: devrel-final
@@ -23,5 +23,11 @@ network_policies:
         enforcement: enforce
         rules:
           - allow: { method: POST, path: "/**" }
+      - host: inference.local
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: POST, path: "/v1/chat/completions" }
     binaries:
       - { path: /usr/bin/python3.13 }
